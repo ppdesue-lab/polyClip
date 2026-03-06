@@ -32,3 +32,6 @@ target_link_libraries(test_polyclip polyclip)
 # 创建详细测试可执行文件
 add_executable(test_polyclip_detailed test_polyclip_detailed.cpp)
 target_link_libraries(test_polyclip_detailed polyclip)
+
+# 创建单一头文件测试可执行文件
+add_executable(test_single_header test_single_header.cpp)

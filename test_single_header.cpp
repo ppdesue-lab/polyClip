@@ -1,7 +1,17 @@
-#include "polyclip/PolygonClipper.h"
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include "PolyClip.hpp"
 #include <iostream>
 
 using namespace PolyOffset;
+
+void printPolygonInfo(const char* operation, Polygon* polygon) {
+    std::cout << operation << " polygon has " << polygon->contours.size() << " contours" << std::endl;
+    for (size_t i = 0; i < polygon->contours.size(); i++) {
+        Contour* contour = polygon->contours[i];
+        std::cout << "  Contour " << i << " has " << contour->points.size() << " points" << std::endl;
+    }
+}
 
 int main() {
     // 创建两个简单的多边形
@@ -22,17 +32,19 @@ int main() {
     clipping->addContour(clippingContour);
 
     // 测试交集操作
-    PolygonClipper clipper(subject, clipping);
-    Polygon* intersection = clipper.compute(PolygonOp::INTERSECTION);
-    std::cout << "Intersection polygon has " << intersection->contours.size() << " contours" << std::endl;
+    PolygonClipper clipper1(subject, clipping);
+    Polygon* intersection = clipper1.compute(PolygonOp::INTERSECTION);
+    printPolygonInfo("Intersection", intersection);
 
     // 测试并集操作
-    Polygon* unionPoly = clipper.compute(PolygonOp::UNION);
-    std::cout << "Union polygon has " << unionPoly->contours.size() << " contours" << std::endl;
+    PolygonClipper clipper2(subject, clipping);
+    Polygon* unionPoly = clipper2.compute(PolygonOp::UNION);
+    printPolygonInfo("Union", unionPoly);
 
     // 测试差集操作
-    Polygon* difference = clipper.compute(PolygonOp::DIFFERENCE);
-    std::cout << "Difference polygon has " << difference->contours.size() << " contours" << std::endl;
+    PolygonClipper clipper3(subject, clipping);
+    Polygon* difference = clipper3.compute(PolygonOp::DIFFERENCE);
+    printPolygonInfo("Difference", difference);
 
     // 清理内存
     delete subject;

@@ -72,7 +72,6 @@ public:
     {
         elements.clear();
     }
-
     bool isEmpty() {
         return elements.empty();
     }
